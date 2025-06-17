@@ -1,0 +1,65 @@
+.toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+  }
+  
+  .toast-container div {
+    position: relative;
+    padding: 15px 20px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    /* color: white; */
+    min-width: 250px;
+    max-width: 300px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+  }
+  
+  .toast-success {
+    background-color: #68AD6F; /* customGreen */
+  }
+  
+  .toast-error {
+    background-color: #F43F5E; /* customRed */
+  }
+  
+  .toast-info {
+    background-color: #1EC0B5; /* lightSky */
+  }
+  
+  .toast-warning {
+    background-color: #EF5261; /* danger/customRed alternative */
+    color: white;
+  }
+  
+  .toast-primary {
+    background-color: #602650; /* primary */
+  }
+  
+  .toast-light {
+    background-color: #F8F7F7; /* veryLightGray */
+    color: #4A4F54; /* darkGray */
+  }
+  
+  .toast-dark {
+    background-color: #4A4F54; /* darkGray */
+  }
+  
+  .close-button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: transparent;
+    border: none;
+    color: inherit;
+    font-size: 1.2em;
+    cursor: pointer;
+    opacity: 0.8;
+  }
+  
+  .close-button:hover {
+    opacity: 1;
+  }

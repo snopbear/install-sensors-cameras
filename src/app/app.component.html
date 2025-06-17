@@ -1,0 +1,33 @@
+<nav class="navbar">
+    <div class="navbar-container">
+        <ul class="nav-links">
+            <li>
+                <a routerLink="/install-cameras" routerLinkActive="active">
+                    Install Cameras
+                </a>
+            </li>
+            <li>
+                <a routerLink="/polygon" routerLinkActive="active">
+                    Polygon
+                </a>
+            </li>
+            <!-- <li>
+                <a routerLink="/polygon-react" routerLinkActive="active">
+                    Polygon React
+                </a>
+            </li> -->
+            <li>
+                <a routerLink="/tree-view" routerLinkActive="active">
+                    Tree View
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<router-outlet></router-outlet>
+
+<loading /><messages />
+<app-toaster></app-toaster>
+
+<router-outlet/>

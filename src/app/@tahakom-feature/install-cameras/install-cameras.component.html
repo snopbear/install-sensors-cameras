@@ -1,0 +1,130 @@
+<div class="network-device-container">
+  <div class="configuration-section">
+    <h2>Network Device Configuration</h2>
+
+    <form [formGroup]="deviceForm" class="device-form">
+      <div class="form-grid">
+        <!-- First Column -->
+        <div class="form-group">
+          <label>Type:</label>
+          <select formControlName="type" class="form-control">
+            <option value="">Select camera type</option>
+            <option value="HTTP">HTTP</option>
+            <option value="TCP">TCP</option>
+            <option value="UDP">UDP</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Camera ID:</label>
+          <input type="text" formControlName="cameraId" class="form-control">
+        </div>
+
+        <div class="form-group">
+          <label>IP Address:</label>
+          <input type="text" formControlName="ipAddress" class="form-control">
+        </div>
+
+        <div class="form-group">
+          <label>Username:</label>
+          <input type="text" formControlName="username" class="form-control">
+        </div>
+
+        <!-- Second Column -->
+        <div class="form-group">
+          <label>Password:</label>
+          <input type="password" formControlName="password" class="form-control">
+        </div>
+
+        <div class="form-group">
+          <label>FPS:</label>
+          <input type="text" formControlName="fps" class="form-control">
+        </div>
+
+        <div class="form-group">
+          <label>City:</label>
+          <input type="text" formControlName="city" class="form-control">
+        </div>
+
+        <div class="form-group">
+          <label>Director:</label>
+          <input type="text" formControlName="director" class="form-control">
+        </div>
+
+        <!-- Third Column -->
+        <div class="form-group">
+          <label>Latitude:</label>
+          <input type="number" formControlName="latitude" class="form-control">
+        </div>
+
+        <div class="form-group">
+          <label>Longitude:</label>
+          <input type="number" formControlName="longitude" class="form-control">
+        </div>
+
+        <div class="form-group">
+          <label>Street:</label>
+          <input type="text" formControlName="street" class="form-control">
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" (click)="cancel()" *ngIf="isEditing">
+          Cancel
+        </button>
+        <button type="button" class="btn btn-danger" (click)="delete(currentDeviceId())" *ngIf="isEditing">
+          Delete
+        </button>
+        <button type="button" class="btn btn-primary" (click)="save()" [disabled]="deviceForm.invalid">
+          {{ isEditing() ? 'Update' : 'Save' }} <!-- Add parentheses to call the signal -->
+          </button>
+      </div>
+    </form>
+  </div>
+
+  <div class="devices-table-section">
+    <h3>Network Devices</h3>
+
+    <div class="table-responsive">
+      <table class="devices-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Type</th>
+            <th>Camera ID</th>
+            <th>IP Address</th>
+            <th>City</th>
+            <th>Director</th>
+            <th>Coordinates</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let device of networkDevices()"
+            [class.active]="detailsNetworkDevice()?.id === device.id">
+            <td>{{ device.id }}</td>
+            <td>{{ device.type }}</td>
+            <td>{{ device.cameraId || '-' }}</td>
+            <td>{{ device.ipAddress }}</td>
+            <td>{{ device.city || '-' }}</td>
+            <td>{{ device.director || '-' }}</td>
+            <td>{{ device.latitude }} / {{ device.longitude }}</td>
+            <td class="actions">
+              <button class="btn btn-sm btn-edit" (click)="edit(device); $event.stopPropagation()">
+                Edit
+              </button>
+              <!-- <button class="btn btn-sm btn-view" (click)="viewOnMap(device); $event.stopPropagation()">
+                View on Map
+              </button> -->
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+<section class="details-section" *ngIf="detailsNetworkDevice() && !isEditing">
+  <!-- <app-install-camera-details [networkDevice]="detailsNetworkDevice()"></app-install-camera-details> -->
+</section>

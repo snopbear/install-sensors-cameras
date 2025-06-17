@@ -3,6 +3,12 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@models/*": ["src/app/@tahakom-core/models/*"],
+      "@services/*": ["src/app/@tahakom-core/services/*"],
+      "@animations/*": ["src/app/@tahakom-core/animations/*"]
+    },
     "strict": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,

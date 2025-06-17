@@ -1,0 +1,10 @@
+<div class="toast-container">
+  @for (toast of toasterService.toasts(); track toast) {
+  <div [@toastAnimation] [class]="getToastClass(toast)" (click)="removeToast(toast)">
+    {{ toast.message }}
+    <button class="close-button" (click)="removeToast(toast); $event.stopPropagation()">
+      &times;
+    </button>
+  </div>
+  }
+</div>

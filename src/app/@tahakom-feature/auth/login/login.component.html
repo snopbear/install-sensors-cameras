@@ -1,0 +1,66 @@
+<div class="p-8 max-w-md mx-auto">
+  <h2 class="text-2xl font-bold text-center mb-6 text-primary">Login</h2>
+
+  <form [formGroup]="_loginForm" (submit)="onSubmit()" class="space-y-4">
+    <!-- Status Messages -->
+    <div *ngIf="authStatus() === 'loading'" class="p-2 bg-primary bg-opacity-10 rounded text-center">
+      <span class="text-primary">Logging in...</span>
+    </div>
+
+    <div *ngIf="authError()" class="p-2 bg-danger bg-opacity-10 rounded text-center">
+      <span class="text-danger">{{ authError() }}</span>
+    </div>
+
+    <!-- Email Field -->
+    <div>
+      <label for="username" class="block text-sm font-medium mb-1">Username</label>
+      <input [ngClass]="{ 'border-danger': _formErrors.username }" type="text" id="username" formControlName="username"
+        class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+        placeholder="Enter username" (blur)="logValidationErrors()">
+      <span class="text-danger text-sm" *ngIf="_formErrors.username">
+        {{ _formErrors.username }}
+      </span>
+    </div>
+
+    <!-- Password Field -->
+    <div>
+      <label for="password" class="block text-sm font-medium mb-1">Password</label>
+      <div class="relative">
+        <input [ngClass]="{ 'border-danger': _formErrors.password }" [type]="showPassword ? 'text' : 'password'"
+          id="password" formControlName="password"
+          class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+          placeholder="Enter password" (blur)="logValidationErrors()">
+          <button type="button" (click)="togglePasswordVisibility()"
+            class="absolute right-3 top-2 text-gray-500 hover:text-primary">
+            {{ showPassword ? '🙈' : '👁️' }}
+            </button>
+      </div>
+      <span class="text-danger text-sm" *ngIf="_formErrors.password">
+        {{ _formErrors.password }}
+      </span>
+    </div>
+
+    <!-- Remember Me -->
+    <div class="mb-4 flex items-center">
+      <input type="checkbox" id="rememberMe" [(ngModel)]="rememberMe" [ngModelOptions]="{standalone: true}"
+        class="mr-2 rounded border-lightGray text-primary focus:ring-primary">
+      <label for="rememberMe" class="text-sm">Remember me</label>
+      </div>
+
+
+    <!-- Submit Button -->
+    <button type="submit" [disabled]="_loginForm.invalid || authStatus() === 'loading'" class="w-full py-2 px-4 rounded-md transition duration-200
+             bg-primary hover:bg-opacity-90 text-white
+             disabled:bg-primary disabled:opacity-75 disabled:cursor-not-allowed">
+     
+             <span *ngIf="authStatus() !== 'loading'">Login</span>
+      <span *ngIf="authStatus() === 'loading'">Please wait...</span>
+    </button>
+
+    <!-- Additional Links -->
+    <div class="text-center text-sm mt-4">
+      Don't have an account?
+      <a [routerLink]="['/register']" class="text-primary hover:underline">Sign up</a>
+    </div>
+  </form>
+</div>

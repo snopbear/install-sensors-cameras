@@ -1,0 +1,10 @@
+<div>
+  <tkm-canvas-area-draw-react #canvasComponent>
+  </tkm-canvas-area-draw-react>
+
+  <div class="controls">
+    <input type="file" accept="image/*" (change)="onFileSelected($event)">
+
+    <button (click)="loadSampleImage()">Load Sample Image</button>
+  </div>
+</div>

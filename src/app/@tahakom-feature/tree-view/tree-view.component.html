@@ -1,0 +1,144 @@
+<h3>{{result |json}}</h3>
+<ul class="tree">
+  <li *ngFor="let region of regions">
+    <div class="node">
+      <span class="toggle" (click)="toggleSet(expandedRegions, region.id)">
+        {{ isExpanded(expandedRegions, region.id) ? '−' : '+' }}
+      </span>
+      <span class="label">{{ region.name }}</span>
+    </div>
+
+    <ul *ngIf="isExpanded(expandedRegions, region.id)">
+      <li *ngFor="let city of getCitiesByRegion(region.id)">
+        <div class="node">
+          <span class="toggle" (click)="toggleSet(expandedCities, city.id)">
+            {{ isExpanded(expandedCities, city.id) ? '−' : '+' }}
+          </span>
+          <span class="label">{{ city.name }}</span>
+        </div>
+
+        <ul *ngIf="isExpanded(expandedCities, city.id)">
+          <li *ngFor="let area of getAreasByCity(city.id)">
+            <div class="node">
+              <span class="toggle" (click)="toggleSet(expandedAreas, area.id)">
+                {{ isExpanded(expandedAreas, area.id) ? '−' : '+' }}
+              </span>
+              <span class="label">{{ area.name }}</span>
+            </div>
+
+            <ul *ngIf="isExpanded(expandedAreas, area.id)">
+              <li *ngFor="let site of getSitesByArea(area.id)">
+                <div class="leaf" (click)="onSiteClick(site.id)">
+                  <span class="dot"></span>
+                  <span class="label">{{ site.name }}</span>
+                </div>         </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+
+
+
+<!-- 1 -->
+
+
+
+<div class="container mx-auto p-4">
+  <form class="w-full max-w-lg" [formGroup]="deviceForm" (ngSubmit)="onSubmit()">
+    <!-- Camera ID Field -->
+    <div class="mb-6">
+      <label class="block text-darkGray font-heading font-bold mb-2">Camera ID:</label>
+      <input type="text" formControlName="cameraId"
+        class="w-full px-4 py-2 border border-lightGray rounded focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+    </div>
+
+    <!-- IP Address Field -->
+    <div class="mb-6">
+      <label class="block text-darkGray font-heading font-bold mb-2">IP Address:</label>
+      <input type="text" formControlName="ipAddress"
+        class="w-full px-4 py-2 border border-lightGray rounded focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+    </div>
+
+    <!-- Add Skill Button -->
+    <div class="flex flex-wrap -mx-3 mb-6">
+      <div class="w-full px-3">
+        <button
+          class="bg-customEmerald hover:bg-customGreen text-white font-heading font-semibold py-2 px-4 rounded shadow transition duration-200"
+          (click)="addSkillButtonClick()" [disabled]="deviceForm.get('skills')!.invalid">
+          Add Skill
+        </button>
+      </div>
+    </div>
+
+    <hr class="border-lightGray my-4" />
+
+    <!-- Skills Section -->
+    <div class="text-darkGray font-heading font-bold mb-4">Skills</div>
+    <div formArrayName="skills">
+      <div *ngIf="skillsControls && skillsControls.length">
+        <div *ngFor="let skill of skillsControls; let i = index">
+          <div [formGroupName]="i">
+            <hr *ngIf="i > 0" class="border-lightGray my-4" />
+
+            <div class="flex flex-wrap -mx-3 mb-2">
+              <!-- Skill Name -->
+              <div [ngClass]="{invalid: skill.get('skillName').invalid && skill.get('skillName').touched}"
+                class="w-full md:w-3/6 px-3 mb-6 md:mb-0">
+                <label [attr.for]="'skillName' + i"
+                  class="block uppercase tracking-wide text-darkGray font-heading text-xs font-bold mb-2">
+                  Camera Skill 
+                </label>
+                <input [class.text]="skill.get('skillName')?.touched && skill.get('skillName')?.invalid"
+                  [id]="'skillName' + i" formControlName="skillName"
+                  class="appearance-none block w-full bg-veryLightGray text-darkGray border border-lightGray rounded py-3 px-4 leading-tight focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white"
+                  type="text" placeholder="Skill Name" />
+                <p *ngIf="skill.get('skillName')?.touched && skill.get('skillName')?.errors?.required"
+                  class="text-customRed text-xs italic mt-1">
+                  Skill Name is required
+                </p>
+              </div>
+
+              <!-- Experience -->
+              <div class="w-full md:w-3/6 px-3 mb-6 md:mb-0"
+                [ngClass]="{invalid: skill.get('expectedWorkingInYears').invalid && skill.get('expectedWorkingInYears').touched}">
+                <label [attr.for]="'expectedWorkingInYears' + i"
+                  class="block uppercase tracking-wide text-darkGray font-heading text-xs font-bold mb-2">
+                  Expected Working years
+                </label>
+                <input [id]="'expectedWorkingInYears' + i" formControlName="expectedWorkingInYears"
+                  [class.text]="skill.get('expectedWorkingInYears')?.touched && skill.get('expectedWorkingInYears')?.invalid"
+                  class="appearance-none block w-full bg-veryLightGray text-darkGray border border-lightGray rounded py-3 px-4 leading-tight focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white"
+                  type="text" placeholder="Experience in years" />
+                <p *ngIf="skill.get('expectedWorkingInYears')?.touched && skill.get('expectedWorkingInYears')?.errors?.required"
+                  class="text-customRed text-xs italic mt-1">
+                  Experience is required
+                </p>
+              </div>
+
+              <!-- Delete Button -->
+              <div *ngIf="skillsControls.length > 1" class="w-full md:w-2/6 px-3 mb-6 md:mb-0 flex items-end">
+                <button type="button" [title]="'Delete'"
+                  class="bg-customRed hover:bg-danger text-white font-heading font-semibold py-2 px-4 rounded shadow transition duration-200"
+                  title="Delete Skill" (click)="removeSkillGroup(i)">
+                  <span class="glyphicon glyphicon-remove">X</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="border-lightGray my-4" />
+
+    <!-- Save Button -->
+    <button [disabled]="deviceForm.invalid"
+      class="bg-transparent hover:bg-primary text-primary font-heading font-semibold hover:text-white py-2 px-4 border border-primary rounded transition duration-200">
+      Save
+    </button>
+  </form>
+</div>
