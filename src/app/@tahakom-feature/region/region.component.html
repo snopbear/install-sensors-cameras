@@ -1,0 +1,59 @@
+<!-- region-form.component.html -->
+<div class="max-w-lg mx-auto p-6 bg-veryLightGray rounded-lg shadow-md">
+  <h2 class="text-2xl font-heading text-primary mb-6">Region Information</h2>
+
+  <form [formGroup]="regionForm" (ngSubmit)="onSubmit()" novalidate class="space-y-4">
+    <!-- ID Field -->
+    <div>
+      <label for="id" class="block text-sm font-medium text-darkGray mb-1">ID</label>
+      <input type="number" id="id" formControlName="id"
+        class="w-full px-3 py-2 border border-lightGray rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-white"
+        readonly>
+    </div>
+
+    <!-- Name Field -->
+    <div>
+      <label for="name" class="block text-sm font-medium text-darkGray mb-1">Region Name</label>
+      <input type="text" id="name" formControlName="name"
+        class="w-full px-3 py-2 border border-lightGray rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+        [class.border-danger]="regionForm.get('name')?.invalid && regionForm.get('name')?.touched">
+      <div *ngIf="regionForm.get('name')?.invalid && regionForm.get('name')?.touched" class="mt-1 text-sm text-danger">
+        Name is required and must be less than 100 characters
+      </div>
+    </div>
+
+    <!-- Description Field -->
+    <div>
+      <label for="description" class="block text-sm font-medium text-darkGray mb-1">Description</label>
+      <textarea id="description" formControlName="description" rows="3"
+        class="w-full px-3 py-2 border border-lightGray rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+        [class.border-danger]="regionForm.get('description')?.invalid && regionForm.get('description')?.touched"></textarea>
+      <div *ngIf="regionForm.get('description')?.invalid && regionForm.get('description')?.touched"
+        class="mt-1 text-sm text-danger">
+        Description must be less than 500 characters
+      </div>
+    </div>
+
+    <!-- Population Field -->
+    <div>
+      <label for="population" class="block text-sm font-medium text-darkGray mb-1">Population</label>
+      <input type="number" id="population" formControlName="population"
+        class="w-full px-3 py-2 border border-lightGray rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+        [class.border-danger]="regionForm.get('population')?.invalid && regionForm.get('population')?.touched">
+      <div *ngIf="regionForm.get('population')?.invalid && regionForm.get('population')?.touched"
+        class="mt-1 text-sm text-danger">
+        Population is required and must be a positive number
+      </div>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="pt-2">
+      <button type="submit"
+        class="w-full bg-primary hover:bg-opacity-90 text-white font-medium py-2 px-4 rounded-md transition duration-200"
+        [disabled]="!regionForm.valid" [class.opacity-50]="!regionForm.valid"
+        [class.cursor-not-allowed]="!regionForm.valid">
+        Save Changes
+      </button>
+    </div>
+  </form>
+</div>

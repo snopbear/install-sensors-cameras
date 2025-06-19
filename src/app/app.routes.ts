@@ -47,5 +47,14 @@ export const routes: Routes = [
     // canActivate: [roleGuard],
     // data: { roles: ["user", "admin"] },
   },
+  {
+    path: "tree-view-dynamic-view",
+    loadComponent: () =>
+      import(
+        "./@tahakom-feature/tree-view-dynamic-view/tree-view-dynamic-view.component"
+      ).then((m) => m.TreeViewDynamicViewComponent),
+    // canActivate: [roleGuard],
+    // data: { roles: ["user", "admin"] },
+  },
 ];
   

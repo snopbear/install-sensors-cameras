@@ -1,0 +1,285 @@
+/* Enhanced CSS Styles */
+.tree-container {
+    display: flex;
+    gap: 20px;
+    height: 100vh;
+  }
+  
+  .tree {   
+    list-style-type: none;   
+    padding-left: 20px;   
+    font-family: sans-serif;
+    flex: 1;
+    max-width: 400px;
+    overflow-y: auto;
+  }  
+  
+  .tree ul {   
+    list-style-type: none;   
+    padding-left: 20px;   
+    position: relative; 
+  }  
+  
+  .tree ul::before {   
+    content: '';   
+    position: absolute;   
+    top: 0;   
+    left: 8px;   
+    width: 1px;   
+    height: 100%;   
+    background-color: #ccc; 
+  }  
+  
+  .tree li {   
+    margin: 5px 0;   
+    position: relative; 
+  }  
+  
+  .tree li::before {   
+    content: '';   
+    position: absolute;   
+    top: 14px;   
+    left: -12px;   
+    width: 20px;   
+    height: 1px;   
+    background-color: #ccc; 
+  }  
+  
+  .node {   
+    display: flex;   
+    align-items: center;   
+    cursor: pointer;
+    gap: 8px;
+  }  
+  
+  .toggle {   
+    display: inline-flex;   
+    justify-content: center;   
+    align-items: center;   
+    width: 20px;   
+    height: 20px;   
+    margin-right: 6px;   
+    margin-left: 10px;   
+    border-radius: 50%;   
+    background-color: #602650;   
+    color: white;   
+    font-weight: bold;   
+    font-size: 14px;   
+    line-height: 20px;   
+    cursor: pointer; 
+  }  
+  
+  /* .label {   
+    font-size: 14px;   
+    user-select: none;
+    flex: 1;
+  }   */
+  
+
+  .label {
+
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+    user-select: none; /* Prevents text selection when clicking */
+  }
+  
+  .label:active, 
+  .label.active {
+    background-color: #64f36b; /* Your green color */
+    color: #000; /* Optional: change text color */
+  }
+  
+  /* Optional hover effect */
+  .label:hover {
+    background-color: #e0e0e0;
+  }
+/* Add these styles to your component's CSS */
+.leaf{
+  display: flex;
+
+}
+.leaf.selected {
+  border-radius: 4px;
+}
+
+.leaf.selected .label {
+  font-weight: bold;
+  color: #910a00; /* Darker green text */
+}
+
+.leaf.selected .dot {
+  
+  background-color: #2ea300; /* Darker green dot */
+  box-shadow: 0 0 5px 2px #37c200;
+}
+  
+  .dot {
+    width: 10px;
+    height: 10px;
+    background-color: #0de918;
+    border-radius: 50%;
+    margin: 8px 14px 0 12px;
+    box-shadow: 0 0 2px 2px #64f36b;
+}
+  /* Panel Button Styles */
+  .panel-btn {
+    background: none;
+    /* border: 1px solid #ddd; */
+    border-radius: 4px;
+    /* padding: 4px 8px; */
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.2s ease;
+    margin-left: auto;
+  }
+  
+  .panel-btn:hover {
+    background-color: #f5f5f5;
+    /* border-color: #999; */
+    transform: scale(1.05);
+  }
+  
+  .panel-btn:hover svg {
+    filter: brightness(1.2);
+    transform: scale(1.1);
+    transition: all 0.2s ease;
+    
+  }
+  .panel-btn.active svg {
+    filter: drop-shadow(0 0 2px currentColor);
+  }
+  .region-btn {
+    background-color: #e8f5e8;
+    border-color: #4caf50;
+  }
+  
+  .region-btn:hover {
+    background-color: #4caf50;
+    color: white;
+  }
+  
+  .city-btn {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+  }
+  
+  .city-btn:hover {
+    background-color: #2196f3;
+    color: white;
+  }
+  
+  .area-btn {
+    background-color: #fff3e0;
+    border-color: #ff9800;
+  }
+  
+  .area-btn:hover {
+    background-color: #ff9800;
+    color: white;
+  }
+  
+  .site-btn {
+    background-color: #fce4ec;
+    border-color: #e91e63;
+  }
+  
+  .site-btn:hover {
+    background-color: #e91e63;
+    color: white;
+  }
+  
+  /* Panel Container Styles */
+  .panel-container {
+    flex: 1;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    max-height: 100vh;
+  }
+  
+  .panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    border-bottom: 1px solid #eee;
+    background-color: #f8f9fa;
+    border-radius: 8px 8px 0 0;
+  }
+  
+  .panel-header h3 {
+    margin: 0;
+    color: #333;
+    font-size: 18px;
+  }
+  
+  .close-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.2s ease;
+  }
+  
+  .close-btn:hover {
+    background-color: #e9ecef;
+    color: #333;
+  }
+  
+  .panel-content {
+    padding: 20px;
+    flex: 1;
+    overflow-y: auto;
+  }
+  
+  /* Panel Type Specific Styles */
+  .region-panel {
+    border-left: 4px solid #4caf50;
+    padding-left: 16px;
+  }
+  
+  .city-panel {
+    border-left: 4px solid #2196f3;
+    padding-left: 16px;
+  }
+  
+  .area-panel {
+    border-left: 4px solid #ff9800;
+    padding-left: 16px;
+  }
+  
+  .site-panel {
+    border-left: 4px solid #e91e63;
+    padding-left: 16px;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .tree-container {
+      flex-direction: column;
+      height: auto;
+    }
+    
+    .tree {
+      max-width: none;
+      max-height: 400px;
+    }
+    
+    .panel-container {
+      max-height: 500px;
+    }
+  }
+

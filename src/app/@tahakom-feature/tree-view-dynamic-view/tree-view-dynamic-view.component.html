@@ -1,0 +1,164 @@
+<!-- Tree View with Dynamic Panel -->
+<div class="tree-container">
+  <ul class="tree">
+    @for (region of data.regions; track region.id) {
+    <li>
+      <div class="node">
+        <span class="toggle" (click)="toggleSet(expandedRegions, region.id)">
+          {{ isExpanded(expandedRegions, region.id) ? '−' : '+' }}
+        </span>
+        <span class="label">{{ region.name }}</span>
+        <button class="panel-btn region-btn" (click)="showPanel('region', region)" title="View Region Panel">
+          <!-- Region Icon (Top Level) -->
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Outer boundary with dashed outline -->
+            <path d="M12 3C7 3 3 7 3 12s4 9 9 9 9-4 9-9-4-9-9-9z" stroke="#4CAF50" stroke-width="1.5"
+              stroke-dasharray="3 2" fill="none" />
+            <!-- Inner solid circle -->
+            <circle cx="12" cy="12" r="6" stroke="#4CAF50" stroke-width="2" fill="none" />
+            <!-- Central dot -->
+            <circle cx="12" cy="12" r="2" fill="#4CAF50" />
+          </svg>
+        </button>
+      </div>
+
+      @if (isExpanded(expandedRegions, region.id)) {
+      <ul>
+        @for (city of getCitiesByRegion(region.id); track city.id) {
+        <li>
+          <div class="node">
+            <span class="toggle" (click)="toggleSet(expandedCities, city.id)">
+              {{ isExpanded(expandedCities, city.id) ? '−' : '+' }}
+            </span>
+            <span class="label">{{ city.name }}</span>
+            <button class="panel-btn city-btn" (click)="showPanel('city', city, region)" title="View City Panel">
+              <!-- City Icon (Second Level) -->
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Skyline buildings -->
+                <rect x="7" y="10" width="2" height="8" fill="#2196F3" />
+                <rect x="11" y="7" width="2" height="11" fill="#2196F3" />
+                <rect x="15" y="9" width="2" height="9" fill="#2196F3" />
+                <!-- Base line -->
+                <path d="M6 18H18" stroke="#2196F3" stroke-width="2" />
+                <!-- Optional center marker -->
+                <circle cx="12" cy="12" r="1" fill="#2196F3" />
+              </svg>
+            </button>
+          </div>
+
+          @if (isExpanded(expandedCities, city.id)) {
+          <ul>
+            @for (area of getAreasByCity(city.id); track area.id) {
+            <li>
+              <div class="node">
+                <span class="toggle" (click)="toggleSet(expandedAreas, area.id)">
+                  {{ isExpanded(expandedAreas, area.id) ? '−' : '+' }}
+                </span>
+                <span class="label">{{ area.name }}</span>
+                <button class="panel-btn area-btn" (click)="showPanel('area', area, city, region)"
+                  title="View Area Panel">
+                  <!-- Area Icon (Third Level) -->
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Boundary circle -->
+                    <circle cx="12" cy="12" r="8" stroke="#FF9800" stroke-width="1.5" fill="none" />
+                    <!-- Divided sectors -->
+                    <path d="M12 4V20M4 12H20" stroke="#FF9800" stroke-width="1" stroke-dasharray="2 2" />
+                    <!-- Central dot -->
+                    <circle cx="12" cy="12" r="2" fill="#FF9800" />
+                  </svg>
+
+                </button>
+              </div>
+
+              @if (isExpanded(expandedAreas, area.id)) {
+              <ul>
+                <!-- Update the site list item in your template -->
+                @for (site of getSitesByArea(area.id); track site.id) {
+                <li>
+                  <div class="leaf" [class.selected]="selectedSiteId === site.id" (click)="onSiteClick(site.id)">
+                    <span class="dot"></span>
+                    <span class="label">{{ site.name }}</span>
+                    <button class="panel-btn site-btn"
+                      (click)="showPanel('site', site, area, city, region); $event.stopPropagation()"
+                      title="View Site Panel">
+                      <!-- Site Icon (Leaf Level) -->
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Pin head -->
+                        <circle cx="12" cy="10" r="4" fill="#F44336" />
+                        <!-- Pin point -->
+                        <path d="M12 14L10 22H14L12 14Z" fill="#F44336" />
+                        <!-- White center -->
+                        <circle cx="12" cy="10" r="1" fill="white" />
+                      </svg>
+                    </button>
+                  </div>
+                </li> }
+              </ul>
+              }
+            </li>
+            }
+          </ul>
+          }
+        </li>
+        }
+      </ul>
+      }
+    </li>
+    }
+  </ul>
+
+  <!-- Dynamic Panel Container -->
+  @if (currentPanel) {
+  <div class="panel-container">
+    <div class="panel-header">
+      <h3>{{ currentPanel.title }}</h3>
+      <button class="close-btn" (click)="closePanel()">×</button>
+    </div>
+    <div class="panel-content">
+      <!-- Dynamic Component Container -->
+      @switch (currentPanel.type) {
+      @case ('region') {
+      <div class="  -panel">
+        <!-- <h2>{{ currentPanel.data.name }}</h2>
+        <p>Contains {{ currentPanel.data.cities.length }} cities</p>
+ -->
+        <app-region/>
+      </div>
+      }
+      @case ('city') {
+      <div class="city-panel">
+        <!-- <h2>{{ currentPanel.data.name }}</h2> -->
+        <!-- <p>Region: {{ currentPanel.parentData?.name }}</p>
+        <p>Contains {{ currentPanel.data.areas.length }} areas</p> -->
+        <app-city/>
+      </div>
+      }
+      @case ('area') {
+      <div class="area-panel">
+        <!-- <h2>{{ currentPanel.data.name }}</h2> -->
+        <!-- <p>City: {{ currentPanel.parentData?.name }}</p>
+        <p>Region: {{ currentPanel.grandParentData?.name }}</p>
+        <p>Contains {{ currentPanel.data.sites.length }} sites</p> -->
+        <app-area/>
+      </div>
+      }
+      @case ('site') {
+      <div class="site-panel">
+        <!-- <h2>{{ currentPanel.data.name }}</h2>
+        <p>Area: {{ currentPanel.parentData?.name }}</p>
+        <p>City: {{ currentPanel.grandParentData?.name }}</p>
+        <p>Region: {{ currentPanel.greatGrandParentData?.name }}</p> -->
+        <tkm-canvas-area-draw [imageUrl]="imageUrl" [enabled]="true">
+          </tkm-canvas-area-draw>
+      </div>
+      }
+      @default {
+      <div>
+        <p>Loading panel...</p>
+      </div>
+      }
+      }
+    </div>
+  </div>
+  }
+</div>
